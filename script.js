@@ -1,40 +1,48 @@
-let rifaData = {}
+let dadosRifa = {}
 
 fetch("rifa-data.json")
 .then(res => res.json())
 .then(data => {
-rifaData = data
-})
 
-const imagem = document.getElementById("rifa")
-const tooltip = document.getElementById("tooltip")
+dadosRifa = data
 
-imagem.addEventListener("mousemove", function(e){
+document.querySelectorAll("area").forEach(area => {
 
-// EXEMPLO: detectar número aproximado pela posição
-let numero = Math.floor(Math.random()*10)+1
+let numero = area.dataset.numero
+let comprador = dadosRifa[numero]
 
-let comprador = rifaData[numero]
-
-tooltip.style.left = e.offsetX + "px"
-tooltip.style.top = e.offsetY + "px"
+area.addEventListener("mouseenter", () => {
 
 if(comprador == null){
 
-tooltip.innerText = "Disponível"
+area.title = "Número " + numero + " disponível"
 
 }else{
 
-tooltip.innerText = "Comprado por: " + comprador
+area.title = "Comprado por: " + comprador
 
 }
 
-tooltip.style.display = "block"
+})
+
+area.addEventListener("click", () => {
+
+if(comprador == null){
+
+let msg = "Olá! Quero comprar o número " + numero + " da rifa da Trice 🐱"
+
+let url = "https://wa.me/5581999999999?text=" + encodeURIComponent(msg)
+
+window.open(url)
+
+}else{
+
+alert("Esse número já foi comprado por " + comprador)
+
+}
 
 })
 
-imagem.addEventListener("mouseleave", function(){
-
-tooltip.style.display = "none"
+})
 
 })
