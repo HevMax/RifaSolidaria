@@ -6,26 +6,32 @@ fetch("rifa-data.json")
 
 dadosRifa = data
 
-document.querySelectorAll("area").forEach(area => {
+document.querySelectorAll("circle").forEach(circle => {
 
-let numero = area.dataset.numero
+let numero = circle.dataset.numero
 let comprador = dadosRifa[numero]
 
-area.addEventListener("mouseenter", () => {
+if(comprador != null){
+
+circle.classList.add("vendido")
+
+}
+
+circle.addEventListener("mouseenter", () => {
 
 if(comprador == null){
 
-area.title = "Número " + numero + " disponível"
+circle.title = "Número " + numero + " disponível"
 
 }else{
 
-area.title = "Comprado por: " + comprador
+circle.title = "Comprado por: " + comprador
 
 }
 
 })
 
-area.addEventListener("click", () => {
+circle.addEventListener("click", () => {
 
 if(comprador == null){
 
